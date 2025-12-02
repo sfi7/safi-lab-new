@@ -428,7 +428,8 @@ class SafiLabAPI:
             subprocess.run(["git", "commit", "-m", message], cwd=os.getcwd(), check=False)
             
             # 3. Push
-            result = subprocess.run(["git", "push"], cwd=os.getcwd(), capture_output=True, text=True)
+            # Explicitly push to origin master and set upstream to avoid "no upstream branch" errors
+            result = subprocess.run(["git", "push", "-u", "origin", "master"], cwd=os.getcwd(), capture_output=True, text=True)
             
             if result.returncode == 0:
                 print("Git Push Successful")
