@@ -254,7 +254,7 @@ class SafiLabAPI:
                         from urllib.parse import quote
                         safe_folder_url = quote(target_folder)
                         # Point directly to the HTML file
-                        correct_url = f"https://{DOMAIN_HOST}/{safe_folder_url}/patient_{pid}.html"
+                        correct_url = f"https://{DOMAIN_HOST}/QR_Patients/{safe_folder_url}/patient_{pid}.html"
                         
                         # 3. Generate QR
                         qr_img = qrcode.make(correct_url)
