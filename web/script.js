@@ -178,11 +178,50 @@ function clearForm() {
     showToast('Ready for new patient');
 }
 
+// --- Helpers ---
+function setLoading(isLoading) {
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(btn => {
+        if (isLoading) {
+            btn.disabled = true;
+            btn.classList.add('processing');
+            if (!btn.dataset.originalText) {
+                btn.dataset.originalText = btn.innerText;
+            }
+            // Optional: Change text for specific buttons if needed, or just dim them
+            // btn.innerText = '...'; 
+        } else {
+            btn.disabled = false;
+            btn.classList.remove('processing');
+            if (btn.dataset.originalText) {
+                // btn.innerText = btn.dataset.originalText;
+            }
+        }
+    });
+
+    // Specific text updates for better UX
+    const genBtn = document.querySelector('.btn-secondary'); // Generate Report button
+    if (genBtn) {
+        genBtn.innerHTML = isLoading ?
+            '<span class="material-icons-round spin">sync</span> Processing...' :
+            '<span class="material-icons-round">settings_suggest</span> Generate Report';
+    }
+}
+
 async function savePatient() {
+    // Validation
+    const id = document.getElementById('p-id').value.trim();
+    const name = document.getElementById('p-name').value.trim();
+    const age = document.getElementById('p-age').value.trim();
+
+    if (!id) return showToast('Error: Patient ID is required');
+    if (!name) return showToast('Error: Patient Name is required');
+    if (age && isNaN(age)) return showToast('Error: Age must be a number');
+
     const data = {
-        id: document.getElementById('p-id').value,
-        name: document.getElementById('p-name').value,
-        age: document.getElementById('p-age').value,
+        id: id,
+        name: name,
+        age: age,
         gender: document.getElementById('p-gender').value,
         clinic: document.getElementById('p-clinic').value,
         doctor: document.getElementById('p-doctor').value,
@@ -194,17 +233,12 @@ async function savePatient() {
         trans: document.getElementById('p-trans').value
     };
 
-    if (!data.id) {
-        showToast('Patient ID is required');
-        return;
-    }
-
+    setLoading(true);
     try {
         const result = await window.pywebview.api.save_patient(JSON.stringify(data));
         if (result) {
             showToast('Patient Saved Successfully');
             loadPatients(); // Refresh list
-            // Refresh details to get updated status (though saved is implicit)
             selectPatient(data.id);
         } else {
             showToast('Failed to save');
@@ -212,6 +246,8 @@ async function savePatient() {
     } catch (error) {
         console.error(error);
         showToast('Error saving patient');
+    } finally {
+        setLoading(false);
     }
 }
 
@@ -223,6 +259,7 @@ async function deletePatient() {
 
     if (!confirm('Are you sure you want to delete this patient?')) return;
 
+    setLoading(true);
     try {
         const result = await window.pywebview.api.delete_patient(currentPatientId);
         if (result) {
@@ -234,6 +271,8 @@ async function deletePatient() {
         }
     } catch (error) {
         console.error(error);
+    } finally {
+        setLoading(false);
     }
 }
 
@@ -243,6 +282,7 @@ async function generateReport() {
         return;
     }
 
+    setLoading(true);
     showToast('Generating Report... Please Wait');
 
     try {
@@ -251,12 +291,9 @@ async function generateReport() {
 
         if (res.success) {
             showToast('Report Generated!');
-            // Switch to reports tab to show QR
             switchTab('reports');
-            // Force refresh QR
             const name = document.getElementById('p-name').value;
             updateQRPreview(name, currentPatientId);
-            // Refresh status
             selectPatient(currentPatientId);
         } else {
             showToast('Generation Failed: ' + res.message);
@@ -264,12 +301,13 @@ async function generateReport() {
     } catch (error) {
         console.error(error);
         showToast('Error calling generator');
+    } finally {
+        setLoading(false);
     }
 }
 
 async function updateQRPreview(name, id) {
     try {
-        // Ask backend for the QR image path or base64
         const qrData = await window.pywebview.api.get_qr_data(name, id);
         const display = document.getElementById('qr-display');
 
@@ -291,18 +329,23 @@ async function updateQRPreview(name, id) {
 // Actions
 function sendEmail() {
     if (!currentPatientId) return showToast('Select patient first');
+    setLoading(true);
     window.pywebview.api.send_email(currentPatientId);
-    setTimeout(() => selectPatient(currentPatientId), 1000); // Refresh status after delay
+    setTimeout(() => {
+        selectPatient(currentPatientId);
+        setLoading(false);
+    }, 1000);
 }
 
 function sendWhatsapp() {
     if (!currentPatientId) return showToast('Select patient first');
+    setLoading(true);
     window.pywebview.api.send_whatsapp(currentPatientId);
-    setTimeout(() => selectPatient(currentPatientId), 1000); // Refresh status after delay
+    setTimeout(() => {
+        selectPatient(currentPatientId);
+        setLoading(false);
+    }, 1000);
 }
-
-
-
 
 function printQR() {
     if (!currentPatientId) return showToast('Select patient first');

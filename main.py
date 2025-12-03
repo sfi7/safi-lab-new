@@ -475,6 +475,16 @@ class SafiLabAPI:
             return False, str(e)
 
 if __name__ == '__main__':
+    # --- Auto-Backup ---
+    try:
+        if os.path.exists(EXCEL_FILE):
+            backup_name = "Patients_Backup.xlsm"
+            backup_path = os.path.join(os.path.dirname(EXCEL_FILE), backup_name)
+            shutil.copy2(EXCEL_FILE, backup_path)
+            print(f"Backup created: {backup_path}")
+    except Exception as e:
+        print(f"Backup failed: {e}")
+
     api = SafiLabAPI()
     window = webview.create_window(
         'SAFI LAB - Modern Manager 2026', 
