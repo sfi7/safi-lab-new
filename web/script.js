@@ -305,3 +305,12 @@ function openFolder() {
 function openVercel() {
     window.pywebview.api.open_vercel();
 }
+
+function updateClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-US', { hour12: false });
+    const clockEl = document.getElementById('live-clock');
+    if (clockEl) {
+        clockEl.innerText = timeString;
+    }
+}

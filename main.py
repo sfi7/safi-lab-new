@@ -420,16 +420,27 @@ class SafiLabAPI:
     def _git_push(self, message):
         """Commits and pushes changes to GitHub."""
         try:
+            # Determine git command
+            git_cmd = "git"
+            try:
+                subprocess.run(["git", "--version"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+            except (FileNotFoundError, subprocess.CalledProcessError):
+                # Try default Windows path
+                default_path = r"C:\Program Files\Git\cmd\git.exe"
+                if os.path.exists(default_path):
+                    git_cmd = default_path
+                else:
+                    print("Git not found. Skipping sync.")
+                    return False, "Git not installed - Local only"
+
             # 1. Add all changes
-            subprocess.run(["git", "add", "."], cwd=os.getcwd(), check=True)
+            subprocess.run([git_cmd, "add", "."], cwd=os.getcwd(), check=True)
             
             # 2. Commit
-            # We use allow-empty in case there are no changes but we want to be sure
-            subprocess.run(["git", "commit", "-m", message], cwd=os.getcwd(), check=False)
+            subprocess.run([git_cmd, "commit", "-m", message], cwd=os.getcwd(), check=False)
             
             # 3. Push
-            # Explicitly push to origin master and set upstream to avoid "no upstream branch" errors
-            result = subprocess.run(["git", "push", "-u", "origin", "master"], cwd=os.getcwd(), capture_output=True, text=True)
+            result = subprocess.run([git_cmd, "push", "-u", "origin", "master"], cwd=os.getcwd(), capture_output=True, text=True)
             
             if result.returncode == 0:
                 print("Git Push Successful")
@@ -452,4 +463,4 @@ if __name__ == '__main__':
         resizable=True
     )
     api.set_window(window)
-    webview.start(debug=False, http_port=23456)
+    webview.start(debug=False, http_port=23456, gui='qt')
