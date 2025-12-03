@@ -326,7 +326,7 @@ class SafiLabAPI:
         
         folder_name = self._get_safe_filename(f"{name}_{pid}")
         safe_folder = quote(folder_name)
-        url = f"https://{DOMAIN_HOST}/{safe_folder}/patient_{pid}"
+        url = f"https://{DOMAIN_HOST}/QR_Patients/{safe_folder}/patient_{pid}.html"
         
         subject = "SAFI LAB - Your Test Report"
         body = f"Dear {name},\n\nYou can access your SAFI LAB report here:\n{url}\n\nBest regards,\nSAFI LAB Team"
@@ -345,7 +345,7 @@ class SafiLabAPI:
         
         folder_name = self._get_safe_filename(f"{name}_{pid}")
         safe_folder = quote(folder_name)
-        url = f"https://{DOMAIN_HOST}/{safe_folder}/patient_{pid}"
+        url = f"https://{DOMAIN_HOST}/QR_Patients/{safe_folder}/patient_{pid}.html"
         
         phone_clean = re.sub(r'[^\d+]', '', phone)
         message = f"Hello {name}, your test report is ready: {url}"
