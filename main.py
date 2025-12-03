@@ -17,6 +17,10 @@ from urllib.parse import quote
 from openpyxl import load_workbook
 import qrcode
 
+# ========================= GPU FIX =========================
+# Disable GPU acceleration to prevent GL context errors
+os.environ["QT_WEBENGINE_CHROMIUM_FLAGS"] = "--disable-gpu --disable-software-rasterizer"
+
 # ========================= CONFIGURATION =========================
 EXCEL_FILE      = os.path.abspath("Patients.xlsm")
 SHEET_NAME      = "Patients"
