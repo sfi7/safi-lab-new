@@ -21,7 +21,7 @@ import qrcode
 EXCEL_FILE      = os.path.abspath("Patients.xlsm")
 SHEET_NAME      = "Patients"
 OUTPUT_ROOT     = os.path.abspath("QR_Patients")
-DOMAIN_HOST     = "safi-lab-3clq.vercel.app"
+DOMAIN_HOST     = "safi-lab-new.vercel.app"
 LAST_UPDATE_COL_INDEX = 18 
 
 import subprocess
