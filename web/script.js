@@ -4,13 +4,24 @@ let currentPatientId = null;
 
 // Initialization
 document.addEventListener('DOMContentLoaded', () => {
+    // Splash Screen Logic
+    setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        if (splash) {
+            splash.classList.add('fade-out');
+            setTimeout(() => {
+                splash.remove();
+            }, 1000); // Wait for transition
+        }
+    }, 4000); // Show for 4 seconds
+
     updateClock();
     setInterval(updateClock, 1000);
 
     // Initial Load
-    setTimeout(() => {
+    window.addEventListener('pywebviewready', function () {
         loadPatients();
-    }, 500); // Small delay to ensure backend is ready
+    });
 });
 
 // Navigation
@@ -294,7 +305,8 @@ function sendWhatsapp() {
 
 
 function printQR() {
-    window.print(); // Simple print, or call backend for specific printing
+    if (!currentPatientId) return showToast('Select patient first');
+    window.pywebview.api.print_qr(currentPatientId);
 }
 
 function openFolder() {

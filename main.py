@@ -365,6 +365,24 @@ class SafiLabAPI:
     def open_vercel(self):
         webbrowser.open("https://vercel.com/dashboard")
 
+    def print_qr(self, pid):
+        """Prints the QR code image using the default OS printer."""
+        try:
+            details = json.loads(self.get_patient_details(pid))
+            name = details.get('name')
+            folder_name = self._get_safe_filename(f"{name}_{pid}")
+            qr_path = os.path.join(OUTPUT_ROOT, folder_name, f"qr_{pid}.png")
+            
+            if os.path.exists(qr_path):
+                os.startfile(qr_path, "print")
+                return True
+            else:
+                print("QR file not found for printing")
+                return False
+        except Exception as e:
+            print(f"Print Error: {e}")
+            return False
+
     # --- Helpers ---
     def _find_row_by_id_com(self, ws_com, patient_id):
         target_str = str(patient_id).strip().lower()
@@ -433,8 +451,8 @@ class SafiLabAPI:
                     print("Git not found. Skipping sync.")
                     return False, "Git not installed - Local only"
 
-            # 1. Add all changes
-            subprocess.run([git_cmd, "add", "."], cwd=os.getcwd(), check=True)
+            # 1. Add all changes (including deletions)
+            subprocess.run([git_cmd, "add", "-A"], cwd=os.getcwd(), check=True)
             
             # 2. Commit
             subprocess.run([git_cmd, "commit", "-m", message], cwd=os.getcwd(), check=False)

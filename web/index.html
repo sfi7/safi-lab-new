@@ -12,6 +12,25 @@
 </head>
 
 <body>
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div class="splash-content">
+            <div class="logo-container">
+                <div class="orbit-ring ring-1"></div>
+                <div class="orbit-ring ring-2"></div>
+                <div class="orbit-ring ring-3"></div>
+                <img src="logo.jpg" alt="SAFI LAB Logo" class="splash-logo">
+            </div>
+            <div class="dna-lines">
+                <div class="dna-line"></div>
+                <div class="dna-line"></div>
+                <div class="dna-line"></div>
+            </div>
+            <h1 class="splash-title">SAFI LAB</h1>
+            <p class="splash-subtitle">Advanced Laboratory Management</p>
+        </div>
+    </div>
+
     <div class="app-container">
         <!-- Sidebar -->
         <aside class="sidebar">
@@ -203,26 +222,38 @@
                         <h3>Actions</h3>
                         <div class="action-grid">
                             <button class="btn-action" onclick="printQR()">
-                                <!-- Settings Tab -->
-                                <section id="settings" class="tab-content">
-                                    <div class="card settings-card">
-                                        <h3>Application Settings</h3>
-                                        <div class="setting-item">
-                                            <span>Dark Mode</span>
-                                            <label class="switch">
-                                                <input type="checkbox" id="theme-switch" onchange="toggleTheme()">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </div>
-                                        <div class="setting-item">
-                                            <span>Language</span>
-                                            <select disabled>
-                                                <option>English</option>
-                                                <option>Arabic</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </section>
+                                <span class="material-icons-round">print</span>
+                                <span>Print QR</span>
+                            </button>
+                            <button class="btn-action" onclick="openFolder()">
+                                <span class="material-icons-round">folder_open</span>
+                                <span>Open Folder</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Tab -->
+            <section id="settings" class="tab-content">
+                <div class="card settings-card">
+                    <h3>Application Settings</h3>
+                    <div class="setting-item">
+                        <span>Dark Mode</span>
+                        <label class="switch">
+                            <input type="checkbox" id="theme-switch" onchange="toggleTheme()">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>Language</span>
+                        <select disabled>
+                            <option>English</option>
+                            <option>Arabic</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
