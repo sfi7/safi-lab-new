@@ -2,57 +2,129 @@
                 <style>
                 /* Enhanced Styles */
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-                body { background: #f0f2f5 !important; font-family: 'Inter', sans-serif !important; }
+                
+                :root {
+                    --bg-body: #f0f2f5;
+                    --bg-card: #ffffff;
+                    --text-main: #1a2a3a;
+                    --text-sub: #555555;
+                    --text-label: #666666;
+                    --border: #e0e0e0;
+                    --shadow: rgba(0,0,0,0.08);
+                    --accent: #0078d7;
+                    --highlight-bg: rgba(0, 120, 215, 0.1);
+                }
+                
+                body.dark-mode {
+                    --bg-body: #0d1117;
+                    --bg-card: #161b22;
+                    --text-main: #e6edf3;
+                    --text-sub: #8b949e;
+                    --text-label: #8b949e;
+                    --border: #30363d;
+                    --shadow: rgba(0,0,0,0.5);
+                    --highlight-bg: rgba(56, 139, 253, 0.15);
+                }
+
+                body { 
+                    background: var(--bg-body) !important; 
+                    font-family: 'Inter', sans-serif !important; 
+                    transition: background 0.3s ease, color 0.3s ease;
+                }
                 
                 /* Header Clock */
                 .header-datetime {
                     margin-top: 12px;
                     font-size: 14px;
-                    color: #555;
-                    background: #fff;
+                    color: var(--text-sub);
+                    background: var(--bg-card);
                     padding: 6px 16px;
                     border-radius: 20px;
                     box-shadow: 0 2px 6px rgba(0,0,0,0.06);
                     font-weight: 600;
                     display: inline-block;
-                    border: 1px solid #e0e0e0;
+                    border: 1px solid var(--border);
                 }
+
+                /* Toggle Button */
+                header { position: relative; } /* Ensure absolute positioning works */
+                .theme-toggle {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    background: var(--bg-card);
+                    border: 1px solid var(--border);
+                    color: var(--text-main);
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 18px;
+                    transition: all 0.2s;
+                    box-shadow: 0 2px 5px var(--shadow);
+                }
+                .theme-toggle:hover { transform: scale(1.1); }
 
                 /* Card Polish */
                 .card { 
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important; 
-                    border: none !important; 
+                    background: var(--bg-card) !important;
+                    box-shadow: 0 10px 30px var(--shadow) !important; 
+                    border: 1px solid var(--border) !important;
                     border-radius: 16px !important;
                     padding: 40px !important;
+                    transition: background 0.3s ease, border 0.3s ease;
                 }
 
                 /* Typography */
-                h1 { color: #1a2a3a !important; font-weight: 800 !important; letter-spacing: -0.5px; }
-                .subtitle { color: #0078d7 !important; font-weight: 500 !important; margin-bottom: 20px !important; }
+                h1 { color: var(--text-main) !important; font-weight: 800 !important; letter-spacing: -0.5px; }
+                .subtitle { color: var(--accent) !important; font-weight: 500 !important; margin-bottom: 20px !important; }
                 
                 .section-title { 
-                    color: #1a2a3a !important; 
+                    color: var(--text-main) !important; 
                     font-size: 18px !important;
-                    border-bottom: 2px solid #f0f2f5;
+                    border-bottom: 2px solid var(--border);
                     padding-bottom: 10px;
                     margin-top: 30px !important;
                 }
                 
-                td { padding: 14px 10px !important; border-bottom: 1px solid #f5f5f5 !important; }
-                td.label { color: #666 !important; font-weight: 500 !important; width: 35% !important; }
-                .val { color: #333 !important; font-weight: 600 !important; }
+                td { padding: 14px 10px !important; border-bottom: 1px solid var(--border) !important; }
+                td.label { color: var(--text-label) !important; font-weight: 500 !important; width: 35% !important; }
+                .val { color: var(--text-main) !important; font-weight: 600 !important; }
                 
                 /* Results Highlight */
                 .val-strong { 
-                    color: #0078d7 !important; 
+                    color: var(--accent) !important; 
                     font-weight: 700 !important; 
-                    background: rgba(0, 120, 215, 0.1);
+                    background: var(--highlight-bg);
                     padding: 4px 10px;
                     border-radius: 6px;
                 }
                 </style>
-                </head><body><div class='card'><header><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f52c.png' style='width:36px;height:36px;'/><h1>SAFI LAB - Patient Report</h1><div class='subtitle'>Professional Laboratory Report</div><div id='header-date-time' class='header-datetime'></div></header><div class='section-title'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f4c3.png' class='icon'/>Identification</div><table><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f4c3.png' class='icon'/> Patient ID</td><td class='val'>124</td></tr><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f464.png' class='icon'/> Full Name</td><td class='val'>SFI</td></tr><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f382.png' class='icon'/> Age</td><td class='val'>22 years</td></tr><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/26a7.png' class='icon'/> Gender</td><td class='val'>Male</td></tr><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f3e5.png' class='icon'/> Clinic</td><td class='val'>Land clinic</td></tr><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f468-200d-2695-fe0f.png' class='icon'/> Doctor</td><td class='val'>mohamed</td></tr><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f4c5.png' class='icon'/> Sample Date</td><td class='val'>12/15/2025 4:42:11 AM</td></tr><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f4de.png' class='icon'/> Phone</td><td class='val'>201068014675</td></tr><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f4e7.png' class='icon'/> Email</td><td class='val'>safffihaggag@gmail.com</td></tr></table><div class='section-title'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f52c.png' class='icon'/> Test Results</div><table><tr><td class='label'>ABS</td><td class='val-strong'>23</td></tr><tr><td class='label'>CONC</td><td class='val-strong'>23</td></tr><tr><td class='label'>TRANS</td><td class='val-strong'>50</td></tr></table><footer>© 2025 SAFI LAB - Confidential</footer></div>
+                </head><body><div class='card'><header><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f52c.png' style='width:36px;height:36px;'/><h1>SAFI LAB - Patient Report</h1><div class='subtitle'>Professional Laboratory Report</div><div id='header-date-time' class='header-datetime'></div><button id='theme-toggle' class='theme-toggle' title='Toggle Theme'>🌙</button></header><div class='section-title'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f4c3.png' class='icon'/>Identification</div><table><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f4c3.png' class='icon'/> Patient ID</td><td class='val'>124</td></tr><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f464.png' class='icon'/> Full Name</td><td class='val'>SFI</td></tr><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f382.png' class='icon'/> Age</td><td class='val'>22 years</td></tr><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/26a7.png' class='icon'/> Gender</td><td class='val'>Male</td></tr><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f3e5.png' class='icon'/> Clinic</td><td class='val'>Land clinic</td></tr><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f468-200d-2695-fe0f.png' class='icon'/> Doctor</td><td class='val'>mohamed</td></tr><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f4c5.png' class='icon'/> Sample Date</td><td class='val'>12/15/2025 4:42:11 AM</td></tr><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f4de.png' class='icon'/> Phone</td><td class='val'>201068014675</td></tr><tr><td class='label'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f4e7.png' class='icon'/> Email</td><td class='val'>safffihaggag@gmail.com</td></tr></table><div class='section-title'><img src='https://twemoji.maxcdn.com/v/latest/72x72/1f52c.png' class='icon'/> Test Results</div><table><tr><td class='label'>ABS</td><td class='val-strong'>23</td></tr><tr><td class='label'>CONC</td><td class='val-strong'>23</td></tr><tr><td class='label'>TRANS</td><td class='val-strong'>50</td></tr></table><footer>© 2025 SAFI LAB - Confidential</footer></div>
                 <script>
+                // --- Dark Mode Logic ---
+                const toggleBtn = document.getElementById('theme-toggle');
+                const body = document.body;
+                
+                // Initialize
+                if(localStorage.getItem('theme') === 'dark') {
+                    body.classList.add('dark-mode');
+                    if(toggleBtn) toggleBtn.innerText = '☀️';
+                }
+                
+                if(toggleBtn) {
+                    toggleBtn.addEventListener('click', () => {
+                        body.classList.toggle('dark-mode');
+                        const isDark = body.classList.contains('dark-mode');
+                        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                        toggleBtn.innerText = isDark ? '☀️' : '🌙';
+                    });
+                }
+
+                // --- Clock Logic ---
                 function updateClock() {
                     const clock = document.getElementById('header-date-time');
                     if(clock) {
